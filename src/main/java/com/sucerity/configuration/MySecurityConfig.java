@@ -1,5 +1,6 @@
 package com.sucerity.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authorization.method.AuthorizationManagerAfterMethodInterceptor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,15 +9,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 
+import javax.sql.DataSource;
+
+
 @EnableWebSecurity
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    DataSource dataSource;
     @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        UserBuilder userBuilder = User.withDefaultPasswordEncoder();
-        authenticationManagerBuilder.inMemoryAuthentication()
-                .withUser(userBuilder.username("zaur").password("zaur").roles(("EMPLOYEE")))
-                .withUser(userBuilder.username("pavel").password("pavel").roles(("IT")))
-                .withUser(userBuilder.username("ivan").password("ivan").roles(("MANAGER"), "HR"));
+        authenticationManagerBuilder.jdbcAuthentication().dataSource(dataSource);
+//        UserBuilder userBuilder = User.withDefaultPasswordEncoder();
+//        authenticationManagerBuilder.inMemoryAuthentication()
+//                .withUser(userBuilder.username("zaur").password("zaur").roles(("EMPLOYEE")))
+//                .withUser(userBuilder.username("pavel").password("pavel").roles(("IT")))
+//                .withUser(userBuilder.username("ivan").password("ivan").roles(("MANAGER"), "HR"));
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
