@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 
 @Configuration
-@ComponentScan(basePackages = "com.security")
+@ComponentScan(basePackages = "com.sucerity")
 @EnableWebMvc
 public class MyConfig {
     @Bean
@@ -27,7 +27,7 @@ public class MyConfig {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         try {
             dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
-            dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/my_db?useSSL=false&amp;serverTimezone=UTC");
+            dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/my_db");
             dataSource.setUser("bestuser");
             dataSource.setPassword("bestuser");
         } catch (PropertyVetoException e) {
